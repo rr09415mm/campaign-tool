@@ -1,0 +1,16 @@
+{
+  "name": "キャンペーン適用リスト",
+  "short_name": "適用リスト",
+  "id": "./tekiyo.html",
+  "start_url": "./tekiyo.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f9",
+  "theme_color": "#17583f",
+  "lang": "ja",
+  "icons": [
+    {"src": "tekiyo-icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "tekiyo-icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "tekiyo-icon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
