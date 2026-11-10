@@ -47,6 +47,13 @@ img{max-width:100%}[hidden]{display:none!important}
 header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
 .eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
 h1{font-family:var(--f-display);font-weight:900;font-size:clamp(26px,4vw,36px);line-height:1.2;margin:4px 0 0;text-wrap:balance}
+.mode{display:inline-grid;grid-template-columns:1fr 1fr;margin-top:12px;padding:3px;border-radius:10px;background:var(--surface);border:1px solid var(--line-strong);gap:3px}
+.mode a{display:flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:6px 18px;border-radius:7px;font-family:var(--f-display);font-weight:700;font-size:14px;color:var(--muted);text-decoration:none;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.mode a[aria-current="page"]{background:var(--head);color:var(--head-fg)}
+.mode a:not([aria-current]):hover{color:var(--fg)}
+.mode a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mode .mi{font-size:12px;line-height:1}
+@media (max-width:760px){.mode{display:grid;width:100%}.mode a{min-height:44px;padding:6px 8px}}
 .lead{margin:6px 0 0;color:var(--muted);max-width:44em}
 .legend{display:flex;flex-wrap:wrap;gap:8px}
 .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap;line-height:1.5;border:1px solid transparent}
@@ -140,6 +147,7 @@ body{-webkit-text-size-adjust:100%}
       <div class="eyebrow">Campaign Exclusion Matrix</div>
       <h1>キャンペーン非適用リスト</h1>
       <p class="lead">既存の回線（行）から変更後の回線（列）へ切り替えるときに<strong>適用されない</strong>キャンペーンの一覧です。</p>
+      <nav class="mode" aria-label="リストの切り替え"><a aria-current="page" href="./"><span class="mi" aria-hidden="true">✕</span>非適用リスト</a><a href="tekiyo.html"><span class="mi" aria-hidden="true">✓</span>適用リスト</a></nav>
     </div>
     <div class="legend" aria-label="凡例">
       <span class="chip ouchi">おうちスマホ割</span>
@@ -242,7 +250,9 @@ function mrender(){
   ml.innerHTML=ROWS[i][1].map((v,j)=>`<li data-k="${v==="X"?"":v.join(" ")}"><div class="mto"><small>AFTER</small>${AFTER[j]}</div><div class="mres">${v==="X"?'<span class="same">同一サービスのため対象外</span>':v.length?`<div class="chips">${v.map(chip).join("")}</div>`:'<span class="free">非適用なし（すべて適用可）</span>'}</div></li>`).join("");
   applyFilter();
 }
-sb.value=1;sa.value=1;render();
+const hm=/^#b(\d+)a(\d+)$/.exec(location.hash);
+document.querySelectorAll(".mode a").forEach(a=>a.addEventListener("click",()=>{a.href=a.getAttribute("href").split("#")[0]+"#b"+sb.value+"a"+sa.value}));
+sb.value=hm&&ROWS[+hm[1]]?hm[1]:1;sa.value=hm&&AFTER[+hm[2]]?hm[2]:1;render();
 if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 </script>
 
