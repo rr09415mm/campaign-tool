@@ -210,7 +210,8 @@ const ROWS=[
  ["ケーブル",[[],[],[],[],[],["ouchi"]]],
  ["Air",[["ouchi","koji"],["ouchi","koji"],["ouchi"],["ouchi"],"X","X"]]
 ];
-ROWS.forEach(r=>{r[1]=r[1].map(v=>v==="X"?"X":Object.keys(C).filter(k=>!v.includes(k)))});
+const NOT_TARGET={"未利用|Air":["koji"]};
+ROWS.forEach(r=>{r[1]=r[1].map((v,j)=>v==="X"?"X":Object.keys(C).filter(k=>!v.includes(k)&&!(NOT_TARGET[r[0]+"|"+AFTER[j]]||[]).includes(k)))});
 const chip=k=>`<span class="chip ${k}">${C[k]}</span>`;
 const $=id=>document.getElementById(id);
 const sb=$("sel-before"),sa=$("sel-after"),tbl=$("matrix");
